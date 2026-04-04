@@ -1,5 +1,5 @@
-from flask import  Flask, request, redirect, sessions
-
+from flask import  Flask, request, redirect, session
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from db import init_db, get_connection
 
@@ -76,6 +76,41 @@ def  signup():
             <button type="submit">Signup</button>
         </form>
     """    
+
+@app.route("/dashboard")
+def dashboard():
+    if "user_id" not in session:
+        return redirect("/login")
+    
+    username = session.get('user')
+    
+    return f"""
+        <h2>Dashboard{username}</h2>
+        <p> You are logged in </p>
+        <a href = '/logout'>Logout</a>
+    """
+
+@app.route("/logout")
+def logout():
+    if "user" in session:
+        session.pop("user")
+    return redirect("login")
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug =True)
