@@ -19,31 +19,37 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    
+    # GET request → login page show karega
+    if request.method == "GET":
+        return render_template("login.html")
+
+    # POST request → login process
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
-
         conn = get_connection()
         cursor = conn.cursor()
 
+       
         cursor.execute(
-            "SELECT * FROM users WHERE username=? AND password=?",
-            (username, password)
+            "SELECT * FROM users WHERE username=?",
+            (username,)
         )
 
-        user =cursor.fetchone()
+        user = cursor.fetchone()
         conn.close()
-        if user and check_password_hash(user[2],password):
-            session["user"] =username
+
+        
+        if user and check_password_hash(user[2], password):
+            session["user"] = username
             flash("Logged in successfully")
             return redirect("/dashboard")
-             
+
         else:
-            flash("Invalid credentials")
+            flash("Invalid username or password")
             return redirect("/login")
-        
-    return render_template("login.html")
 
     
 
