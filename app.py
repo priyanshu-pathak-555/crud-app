@@ -31,8 +31,9 @@ def login():
 
         user =cursor.fetchone()
         conn.close()
-        if user:
-            sessions["user_id"] = user[0]
+        if user and check_password_hash(user[2],password):
+            session["user"] =username
+            return redirect("/dashboard")
             return "logged in successfully"
         else:
             return "Invalid credentials"
@@ -40,11 +41,12 @@ def login():
     return """
         <h2>Login</h2>
         <form method="post">
-            <input name="username" placeholder="Enter username"><br><br>
-            <input name="password" type="password" placeholder="Enter password"><br><br>
-            <button type="submit">Login</button>
+            <input name="username"><br><br>
+            <input name="password" type="password"><br><br>
+            <button>Login</button>
         </form>
     """
+
     
 
 
@@ -67,6 +69,10 @@ def  signup():
             return "registered successfully "
         except:
             return "Username already exists"
+        
+        finally:
+            conn.close()
+
     
     return """
         <h2>Signup</h2>
@@ -95,6 +101,8 @@ def logout():
     if "user" in session:
         session.pop("user")
     return redirect("login")
+
+
 
 
 
