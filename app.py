@@ -36,8 +36,9 @@ def login():
         conn.close()
         if user and check_password_hash(user[2],password):
             session["user"] =username
+            flash("Logged in successfully")
             return redirect("/dashboard")
-            flash("Logged in successfully") 
+             
         else:
             flash("Invalid credentials")
             return redirect("/login")
