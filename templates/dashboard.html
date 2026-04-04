@@ -3,7 +3,23 @@
 {% block content %}
 <h2>Welcome {{ username }}</h2>
 
-<p>You are logged in 🎉</p>
+<form method="post" action="/add_note">
+    <input name="content" placeholder="Write note">
+    <button>Add</button>
+</form>
+
+<ul>
+    {% for note in notes %}
+        <li>
+            {{ note[2] }}
+            
+            
+            <a href="/edit_note/{{ note[0] }}"></a>
+ 
+            <a href="/delete_note/{{ note[0] }}"></a>
+        </li>
+    {% endfor %}
+</ul>
 
 <a href="/logout">Logout</a>
 {% endblock %}

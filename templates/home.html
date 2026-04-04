@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to Authentication System 🔐</h2>
+
+<p>
+This is a web application built using Flask and SQLite that demonstrates
+a complete user authentication system. Users can register, log in, and
+access protected routes securely using session-based authentication.
+</p>
+
+<p>
+The application also ensures password security using hashing techniques,
+making it a basic but practical implementation of real-world login systems.
+</p>
+
+<div style="margin-top:20px;">
+    <a href="/login"><button>Login</button></a>
+    <a href="/signup"><button>Signup</button></a>
+</div>
+
+{% endblock %}

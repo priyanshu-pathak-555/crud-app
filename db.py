@@ -20,6 +20,15 @@ def init_db():
     )
     """)
 
+    
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        content TEXT
+    )
+    """)
+
     conn.commit()
     conn.close()
-    
