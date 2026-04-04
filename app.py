@@ -1,16 +1,51 @@
-from flask import  Flask, request, redirect
+from flask import  Flask, request, redirect, sessions
+
 
 from db import init_db, get_connection
 
 
 app = Flask(__name__)
+app.secret_key ='secret123'
   
 init_db()
 
 @app.route("/")
 def home():
-    return " Running successfully"
+    return " welcome to we app"
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (username, password)
+        )
+
+        user =cursor.fetchone()
+        conn.close()
+        if user:
+            sessions["user_id"] = user[0]
+            return "logged in successfully"
+        else:
+            return "Invalid credentials"
+        
+    return """
+        <h2>Login</h2>
+        <form method="post">
+            <input name="username" placeholder="Enter username"><br><br>
+            <input name="password" type="password" placeholder="Enter password"><br><br>
+            <button type="submit">Login</button>
+        </form>
+    """
+    
 
 
 @app.route("/signup", methods=["GET", "POST"])
