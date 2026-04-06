@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Detect User Account</h2>
+
+<form method="post">
+    <input name="username" placeholder="Username" value="{{ username }}"><br><br>
+    <input type="hidden" name="action" value="check">
+    <button>Check Account</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+
+{% if account_exists %}
+    <form method="post" style="margin-top:1rem;">
+        <input type="hidden" name="username" value="{{ username }}">
+        <input type="hidden" name="action" value="delete">
+        <button style="background:red; color:white;">Delete Account</button>
+    </form>
+{% endif %}
+
+<a href="/login">Back to Login</a>
+{% endblock %}
